@@ -1,0 +1,113 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-11-08T21:59:36.662Z",
+  "id": "onJhXvEcE7J588Fv",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://www.techradar.com/rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        0
+      ],
+      "id": "f2c1515b-1a10-4caf-a2d7-8c0b851b6198",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        0
+      ],
+      "id": "aabf9209-f2f9-4117-8c7f-2f7faca3b70a",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Crea SIEMPRE la columna \"image\" en la tabla y mete la primera imagen encontrada.\n\nfunction isImageUrl(url = \"\") {\n  return typeof url === \"string\" &&\n    /(https?:)?\\/\\//i.test(url) &&\n    /\\.(png|jpe?g|gif|webp|bmp|svg)(\\?|#|$)/i.test(url);\n}\n\nfunction firstImgFromHtml(html = \"\") {\n  if (!html || typeof html !== \"string\") return null;\n  const match = html.match(/<img[^>]+src=[\"']([^\"']+)[\"']/i);\n  return match ? match[1] : null;\n}\n\nfunction pickFromMediaContent(media) {\n  if (!media) return null;\n  const arr = Array.isArray(media) ? media : [media];\n  for (const m of arr) {\n    const url = m?.url ?? m?.$?.url ?? null;\n    const type = m?.type ?? m?.$?.type ?? \"\";\n    if (url && (type.startsWith(\"image/\") || isImageUrl(url))) return url;\n  }\n  return null;\n}\n\nconst out = [];\n\nfor (const item of items) {\n  const json = item.json ?? {};\n  let imageUrl = null;\n\n  // 1) PRIORIDAD: enclosure.url (aunque \"length\" sea \"0\")\n  if (json.enclosure?.url) {\n    const url = json.enclosure.url;\n    const type = json.enclosure?.type ?? \"\";\n    if (type.startsWith(\"image/\") || isImageUrl(url)) {\n      imageUrl = url;\n    }\n  }\n\n  // 2) media:content (si existe)\n  if (!imageUrl) {\n    imageUrl = pickFromMediaContent(json[\"media:content\"]);\n  }\n\n  // 3) content:encoded o content (buscar <img src=\"...\">)\n  if (!imageUrl) {\n    const html = json[\"content:encoded\"] ?? json.content ?? \"\";\n    const fromHtml = firstImgFromHtml(html);\n    if (fromHtml) imageUrl = fromHtml;\n  }\n\n  // Asegurar SIEMPRE la columna \"image\" en la tabla:\n  // - si hay URL, la ponemos\n  // - si no hay, dejamos \"\" para que la columna aparezca igual\n  json.image = imageUrl || \"\";\n\n  out.push({ json, binary: item.binary });\n}\n\nreturn out;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        128,
+        -208
+      ],
+      "id": "89926d17-5d9a-4980-9f37-b02430e500d3",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node\n// Si el título contiene \"Microsoft\", antepone \"Antonio Down \" al título.\n\nconst out = [];\n\nfor (const item of items) {\n  const json = item.json ?? {};\n  let title = json.title ?? \"\";\n\n  // Comprobamos si \"Microsoft\" aparece en el título (sin importar mayúsculas/minúsculas)\n  if (/microsoft/i.test(title)) {\n    // Evitamos duplicar el prefijo si el flujo se ejecuta varias veces\n    if (!title.startsWith(\"Antonio Down \")) {\n      title = \"Antonio Down \" + title;\n    }\n  }\n\n  // Actualizamos el campo\n  json.title = title;\n\n  out.push({ json, binary: item.binary });\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        128,
+        128
+      ],
+      "id": "b7e2d1d2-ecc8-4311-bda4-fd06a03df032",
+      "name": "Code in JavaScript1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-08T21:59:36.668Z",
+      "createdAt": "2025-11-08T21:59:36.668Z",
+      "role": "workflow:owner",
+      "workflowId": "onJhXvEcE7J588Fv",
+      "projectId": "gXLTUZREy3VyHbNy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-08T22:50:02.000Z",
+  "versionId": "b2d66e39-2b1b-498b-aebf-7c5eb30dbe52"
+}
