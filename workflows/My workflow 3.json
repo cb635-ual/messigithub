@@ -1,0 +1,194 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Get many workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many workflows": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-01T22:32:58.490Z",
+  "id": "8cMPxGcezurrCi7n",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c7c4fff8-4cd1-44ed-bd73-39d8354ea538",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83d9d0fa-23f3-4ed4-afec-09c76eeb360b",
+              "name": "repo.owner",
+              "value": "cb635-ual",
+              "type": "string"
+            },
+            {
+              "id": "a3476242-a625-4343-80cd-cfc93b3ad9cb",
+              "name": "repo.name",
+              "value": "messigithub",
+              "type": "string"
+            },
+            {
+              "id": "b3f89990-6411-42de-ac22-084bcaca8e38",
+              "name": "repo.path",
+              "value": "workflows/",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "645ea718-0484-4372-ba0a-b89d721aa240",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "cb2a5662-ef05-467f-9e08-1f863afdd2e3",
+      "name": "Get many workflows",
+      "credentials": {
+        "n8nApi": {
+          "id": "EcBDNCkpbCNWyMSD",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "e0bed1ee-725b-4766-bcda-f843a82f89f0",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "cb635-ual",
+          "mode": "list",
+          "cachedResultName": "cb635-ual",
+          "cachedResultUrl": "https://github.com/cb635-ual"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "messigithub",
+          "mode": "list",
+          "cachedResultName": "messigithub",
+          "cachedResultUrl": "https://github.com/cb635-ual/messigithub"
+        },
+        "filePath": "=",
+        "asBinaryProperty": false,
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        832,
+        96
+      ],
+      "id": "ffb0e84b-1689-4ce7-8370-e9b53b0dde12",
+      "name": "Get a file",
+      "webhookId": "235620cc-1341-4196-9107-8c083de33e25",
+      "credentials": {
+        "githubApi": {
+          "id": "T5A6DwsnTOBLsay5",
+          "name": "GitHub account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-01T22:32:58.495Z",
+      "createdAt": "2025-12-01T22:32:58.495Z",
+      "role": "workflow:owner",
+      "workflowId": "8cMPxGcezurrCi7n",
+      "projectId": "gXLTUZREy3VyHbNy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-01T23:12:27.000Z",
+  "versionId": "187e27bd-510b-4b0d-856d-8881dfe6480d"
+}
