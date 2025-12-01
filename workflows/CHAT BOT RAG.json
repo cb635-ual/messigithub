@@ -1,0 +1,226 @@
+{
+  "active": false,
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-11-18T00:00:31.472Z",
+  "id": "rTsNlPmwPjhdflfC",
+  "isArchived": false,
+  "meta": null,
+  "name": "CHAT BOT RAG",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hola!!!\nAqui estoy para responder cualquier pregunta sobre el Antiguo Egipto. Dispara!!!!\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e227ad59-6f13-4632-9d27-f17f632faac9",
+      "name": "When chat message received",
+      "webhookId": "44a88410-1de5-4ceb-a937-36a0d611e644"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Eres un agente super amable que ayuda a las personas que buscan respuestas sobre cuestiones sobre el Antiguo Egipto.\n\nEn la herramienta \"RAG N8N\" tienes toda la información sobre el Antiguo Egipto.\n\nSólo debes de responder con la información que tienes en la herramienta \"RAG N8N\". Si no tuvieses esa infomración en la herramienta, contesta que no lo sabes.\n\nSiempre realiza una busqueda en el vector store antes de responder.\n\nNunca muestres al usuario el JSON ni los datos crudos devueltos por las herramientas.\nSolo responde con texto natural en español, sin incluir estructuras JSON, metadatos ni IDs.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "ce8c9a4d-275d-4e40-91f1-0e5914637f6f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini-2024-07-18",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini-2024-07-18"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        208
+      ],
+      "id": "c3f6d279-c8b9-4371-99d6-e00d9fc05144",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "AQrujgCm38QVQ8JD",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 500
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        432,
+        208
+      ],
+      "id": "f37a3a63-5665-4141-b4dd-ed25f59bafae",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Trabaja con tu pinecone vector donde tienes toda la información sobre el Antiguo Egipto.",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "nuevas",
+          "mode": "list",
+          "cachedResultName": "nuevas"
+        },
+        "includeDocumentMetadata": false,
+        "options": {
+          "pineconeNamespace": "RAG N8N"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        624,
+        192
+      ],
+      "id": "45ec360a-bdf1-4b31-82e2-67cda9d7cc38",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "oCWpbJZW5PzTYB79",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        352
+      ],
+      "id": "088aff45-6f10-4cdb-a6ed-3c59ae7b895e",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "AQrujgCm38QVQ8JD",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Este código asume que el mensaje largo viene en `items[0].json.data`\n// o en `items[0].json.text`. Ajusta la propiedad según tu flujo real.\n\nreturn items.map(item => {\n  // 1. Localiza el texto completo que está saliendo al usuario\n  const raw = item.json.text || item.json.data || '';\n\n  // 2. Si el JSON del ai_tool viene y luego la respuesta limpia,\n  //    normalmente hay un cierre de corchetes o llaves antes del texto útil.\n  //    Ej: ...}}]]}}] Ramsés II, también conocido como...\n  //    Buscamos el último '}]' o '}' y nos quedamos con lo que sigue.\n\n  let respuesta = raw;\n\n  // Intenta cortar después del último '}]' o '}' o ']'\n  const markers = ['}}]]}}]', ']]}}]', '}}]', '}]', '}', ']'];\n  for (const m of markers) {\n    const idx = raw.lastIndexOf(m);\n    if (idx !== -1 && idx + m.length < raw.length) {\n      respuesta = raw.slice(idx + m.length).trim();\n      break;\n    }\n  }\n\n  // 3. También limpiamos posibles comillas sobrantes al principio/fin\n  respuesta = respuesta.replace(/^\"+|\"+$/g, '').trim();\n\n  // Guardamos en un campo nuevo\n  item.json.respuestaLimpia = respuesta;\n\n  return item;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        64
+      ],
+      "id": "60473b10-b4d9-4be9-b269-879c4b84339c",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-18T00:00:31.476Z",
+      "createdAt": "2025-11-18T00:00:31.476Z",
+      "role": "workflow:owner",
+      "workflowId": "rTsNlPmwPjhdflfC",
+      "projectId": "gXLTUZREy3VyHbNy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-27T22:38:47.000Z",
+  "versionId": "a2b7b03b-17fd-4bd9-82a9-757fef4fb019"
+}
