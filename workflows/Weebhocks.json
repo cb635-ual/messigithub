@@ -1,0 +1,54 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2025-11-08T22:58:41.767Z",
+  "id": "wa3qVynqakOk1X1N",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Weebhocks",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meenamorejodersecurity",
+        "authentication": "jwtAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "258f3e07-e55e-406e-bb62-4ff715a93a74",
+      "name": "Webhook",
+      "webhookId": "15b58dfe-2cb8-4f73-abad-cb5f1faa3575",
+      "credentials": {
+        "jwtAuth": {
+          "id": "bFw68jyJr6I2zgxF",
+          "name": "JWT Auth account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-08T22:58:41.770Z",
+      "createdAt": "2025-11-08T22:58:41.770Z",
+      "role": "workflow:owner",
+      "workflowId": "wa3qVynqakOk1X1N",
+      "projectId": "gXLTUZREy3VyHbNy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-08T23:37:53.000Z",
+  "versionId": "19f7ff6c-d091-498a-a0d0-dde120cb9da1"
+}
