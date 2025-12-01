@@ -1,0 +1,158 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-27T22:30:12.243Z",
+  "id": "CzfdOLVmlRmLzJFv",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Wordpress",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f9eb0147-d93e-4ea2-a026-3ba033393fbe",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "title": "Test Pill Me enamore",
+        "additionalFields": {
+          "content": "CONTENIDO DEL POST",
+          "status": "draft",
+          "categories": "={{ 785699846,785699891 }}"
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "222a9080-3db1-45c8-a1e7-16aa526b52de",
+      "name": "Create a post",
+      "credentials": {
+        "wordpressApi": {
+          "id": "KsRMMb03PnpZLXEo",
+          "name": "Wordpress account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "file:///C:/Users/Usuario/OneDrive/Escritorio/Vainas/AGENT_IA/ANOTNIO%20DOWN.png",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "7bd7b5c8-3d56-49f1-8237-7b9e648ff93c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://eldelpatronsocialfamily.wordpress.com",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-disposition",
+              "value": "=attachment; filname{{ $json.tittle.rendered }}, {{ $binary.data.fileExtension }}"
+            },
+            {
+              "name": "content-type",
+              "value": "={{ $binary.data.mimeType }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "={\n    \"title\": \"Portada artículo\",\n    \"alt_text\": \"Paisaje al atardecer\",\n    \"caption\": \"Foto de portada\",\n    \"description\": \"Imagen importada vía API\",\n    \"source_url\": \"file:///C:/Users/Usuario/OneDrive/Escritorio/Vainas/AGENT_IA/ANOTNIO DOWN.png\"  // URL pública de la imagen\n  }"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "56a5db91-5cdb-4bab-bbec-1a6fa5e36654",
+      "name": "HTTP Request1",
+      "credentials": {
+        "wordpressApi": {
+          "id": "KsRMMb03PnpZLXEo",
+          "name": "Wordpress account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-27T22:30:12.247Z",
+      "createdAt": "2025-11-27T22:30:12.247Z",
+      "role": "workflow:owner",
+      "workflowId": "CzfdOLVmlRmLzJFv",
+      "projectId": "gXLTUZREy3VyHbNy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-27T23:56:52.000Z",
+  "versionId": "dc3fbdba-dff4-46a4-881d-87fe03414ce1"
+}
