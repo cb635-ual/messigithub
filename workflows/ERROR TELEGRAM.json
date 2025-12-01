@@ -1,0 +1,66 @@
+{
+  "active": false,
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-08T22:54:43.056Z",
+  "id": "ySKoV8jlkTloSlfy",
+  "isArchived": false,
+  "meta": null,
+  "name": "ERROR TELEGRAM",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        0
+      ],
+      "id": "92289493-1c6f-4a90-8fc5-a95dad1489a6",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        0
+      ],
+      "id": "148021b0-a6d2-40c3-9bce-023e65e128ae",
+      "name": "Send a text message",
+      "webhookId": "cca22c5a-e280-499d-a8fd-6df305d3bd94"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-08T22:54:43.060Z",
+      "createdAt": "2025-11-08T22:54:43.060Z",
+      "role": "workflow:owner",
+      "workflowId": "ySKoV8jlkTloSlfy",
+      "projectId": "gXLTUZREy3VyHbNy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-08T22:58:33.000Z",
+  "versionId": "5a1cdc33-c1b2-44be-a10b-9e524fb963e0"
+}
